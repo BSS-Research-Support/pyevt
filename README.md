@@ -30,9 +30,10 @@ Edit this file with: `sudo nano 99-evt-devices.rules` and add the following line
 
 # Used EVT device
 SUBSYSTEM=="usb", ATTRS{idVendor}=="0808", ATTRS{idProduct}=="0002", GROUP="plugdev", MODE="0660"
-
 ```
+
 Save and close `99-evt-devices.rules`
+
 The user should retrigger the udev rules after disconnecting the EVT-device first with:
 
 `sudo udevadm control --reload-rules && sudo udevadm trigger`

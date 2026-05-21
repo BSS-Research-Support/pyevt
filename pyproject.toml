@@ -3,7 +3,7 @@ name = "pyevt"
 version = "0.2.1"
 description = "API for EVT-2 USB devices"
 authors = [
-	"Martin Stokroos <m.stokroos@rug.nl>"
+	"Martin Stokroos <m.stokroos@rug.nl>",
     "Mark M. Span <m.m.span@rug.nl>"
 ]
 maintainers = [
