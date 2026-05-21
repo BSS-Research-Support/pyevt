@@ -14,40 +14,40 @@ Install pyevt (and hidapi) with:
 `pip install --user pyevt` on managed computers.
 
 ## 4. Device Permission for Linux
-In Linux, python HIDAPI uses the *libusb* backend (not *hidraw*). Permission for EVT devices should be given by adding the next lines to a udev file, for example:
+In Linux, python HIDAPI uses the *libusb* backend (not *hidraw*). After connecting the EVT device, check for the EVT idVendor:idProduct ID's with:
 
-`99-evt-devices.rules` in `/etc/udev/rules.d`:
+`lsusb`
+
+Permission for EVT devices should be given by adding the next lines to a udev file, for example:
+
+In `/etc/udev/rules.d` create a device rules file with:
+`sudo touch 99-evt-devices.rules`
+
+Edit this file with: `sudo nano 99-evt-devices.rules` and add the following lines:
 
 ```
 # /etc/udev/rules.d/99-evt-devices.rules
 
-# Used EVT devices
+# Used EVT device
 SUBSYSTEM=="usb", ATTRS{idVendor}=="0808", ATTRS{idProduct}=="0002", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0004", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0008", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0009", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0114", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0208", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0308", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0408", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0508", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0604", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0808", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0909", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="1803", GROUP="plugdev", MODE="0660"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="1807", GROUP="plugdev", MODE="0660"
 
 ```
+Save and close `99-evt-devices.rules`
+The user should retrigger the udev rules after disconnecting the EVT-device first with:
+
+`sudo udevadm control --reload-rules && sudo udevadm trigger`
 
 The user should be a member of the `plugdev` -group.
 
 Check with:
 
-`$ groups username`
+`groups username`
 
 If this is not the case, add the user to the `plugdev` group by typing:
 
-`$ sudo usermod -a -G plugdev username`
+`sudo usermod -a -G plugdev username`
+
+Plugin the EVT-device and ready you are.
 
 ## 5. EventExchanger Class — API Summary
 
